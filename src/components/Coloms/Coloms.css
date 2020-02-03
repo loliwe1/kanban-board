@@ -1,0 +1,15 @@
+.Coloms {
+  width: 270px;
+  height: 100%;
+  min-height: 100px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
+  padding-left: 10px;
+  background: #ebecf0;
+  border-radius: 5px;
+}
+
+.Coloms h2 {
+  border-bottom: 1px solid #ccc;
+}
