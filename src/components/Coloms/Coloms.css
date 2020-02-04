@@ -5,11 +5,22 @@
   margin-left: 5px;
   margin-right: 5px;
   padding: 5px;
-  padding-left: 10px;
   background: #ebecf0;
   border-radius: 5px;
 }
 
-.Coloms h2 {
-  border-bottom: 1px solid #ccc;
+.Coloms textarea {
+  background: #ebecf0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 20px;
+  color: black;
+  resize: none;
+  overflow: hidden;
+}
+.Coloms textarea:focus {
+  outline: 1px solid #40e0d0;
+  background: white;
 }
