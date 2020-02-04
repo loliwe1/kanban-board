@@ -22,7 +22,7 @@ class Coloms extends React.Component {
           defaultValue={this.props.name}
         ></textarea>
         {this.renderCards()}
-        <p>&#10010; Добавить карточку</p>
+        <p onClick={this.props.addNewCard}>&#10010; Добавить карточку</p>
       </div>
     );
   }

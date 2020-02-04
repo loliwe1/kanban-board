@@ -23,8 +23,12 @@ class Layout extends React.Component {
           { name: "Card6", comment: "6" }
         ]
       },
-      { id: 2, name: localStorage.getItem(`colomTitle2`) || "Testing" },
-      { id: 3, name: localStorage.getItem(`colomTitle3`) || "Done" }
+      {
+        id: 2,
+        name: localStorage.getItem(`colomTitle2`) || "Testing",
+        cards: []
+      },
+      { id: 3, name: localStorage.getItem(`colomTitle3`) || "Done", cards: [] }
     ]
   };
 
@@ -40,6 +44,13 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  addNewCardHandler = index => {
+    const coloms = this.state.coloms.concat();
+    coloms[index].cards.push({ name: "Введите название", comment: "0" });
+
+    this.setState({ coloms });
+  };
+
   renderColoms() {
     return this.state.coloms.map(colom => {
       return (
@@ -48,6 +59,7 @@ class Layout extends React.Component {
           key={colom.id}
           onChangeTitle={e => this.changeTitleHandler(colom.id, e)}
           cards={colom.cards}
+          addNewCard={this.addNewCardHandler.bind(this, colom.id)}
         />
       );
     });
