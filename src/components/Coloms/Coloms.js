@@ -15,10 +15,12 @@ class Coloms extends React.Component {
   }
 
   render() {
-    console.log(this.props.cards);
     return (
-      <div onClick={this.props.onChangeTitle} className="Coloms">
-        <textarea defaultValue={this.props.name}></textarea>
+      <div className="Coloms">
+        <textarea
+          onChange={this.props.onChangeTitle}
+          defaultValue={this.props.name}
+        ></textarea>
         {this.renderCards()}
         <p>&#10010; Добавить карточку</p>
       </div>
