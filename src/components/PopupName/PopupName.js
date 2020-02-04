@@ -5,10 +5,15 @@ const PopupName = props => {
   return (
     <div className="PopupNameBlur">
       <div className="PopupName">
-        <form>
+        <form action="#" method="GET">
           <h2>Your Name?</h2>
-          <input></input>
-          <button>Save</button>
+          <input
+            onChange={props.onChangeName}
+            type="text"
+            placeholder="Vasya"
+            autoFocus
+          ></input>
+          <button onClick={props.onSaveName}>Save</button>
         </form>
       </div>
     </div>

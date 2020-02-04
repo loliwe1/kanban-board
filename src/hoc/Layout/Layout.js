@@ -1,9 +1,11 @@
 import React from "react";
 import "./Layout.css";
 import Coloms from "../../components/Coloms/Coloms";
+import PopupName from "../../components/PopupName/PopupName";
 
 class Layout extends React.Component {
   state = {
+    name: "",
     coloms: [
       {
         id: 0,
@@ -65,8 +67,30 @@ class Layout extends React.Component {
     });
   }
 
+  changeNameHandler = event => {
+    if (event.target.value.length > 3) {
+      this.setState({
+        name: event.target.value
+      });
+    } else return null;
+  };
+
   render() {
-    return <div className="Layout">{this.renderColoms()}</div>;
+    return (
+      <div>
+        {this.state.name ? (
+          <div className="Layout">{this.renderColoms()}</div>
+        ) : (
+          <div>
+            <div className="Layout">{this.renderColoms()}</div>
+            <PopupName
+              // onSaveName={this.saveNameHandler}
+              onChangeName={e => this.changeNameHandler(e)}
+            />
+          </div>
+        )}
+      </div>
+    );
   }
 }
 
