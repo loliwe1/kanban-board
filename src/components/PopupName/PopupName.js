@@ -15,6 +15,7 @@ const PopupName = props => {
           ></input>
           <button onClick={props.onSaveName}>Save</button>
         </form>
+        {props.children}
       </div>
     </div>
   );

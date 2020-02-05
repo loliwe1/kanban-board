@@ -5,7 +5,12 @@ import PopupName from "../../components/PopupName/PopupName";
 
 class Layout extends React.Component {
   state = {
-    name: "",
+    popUpName: {
+      name: localStorage.getItem("popupName"),
+      saveName: localStorage.getItem("saveName"),
+      buttonClicked: false,
+      valid: false
+    },
     coloms: [
       {
         id: 0,
@@ -53,6 +58,14 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  deleteCardsHandler = (id, index) => {
+    const coloms = [...this.state.coloms];
+    const cards = coloms[id].cards;
+    cards.splice(index, 1);
+
+    this.setState({ coloms });
+  };
+
   renderColoms() {
     return this.state.coloms.map(colom => {
       return (
@@ -62,31 +75,77 @@ class Layout extends React.Component {
           onChangeTitle={e => this.changeTitleHandler(colom.id, e)}
           cards={colom.cards}
           addNewCard={this.addNewCardHandler.bind(this, colom.id)}
+          deleteCard={this.deleteCardsHandler.bind(this, colom.id)}
         />
       );
     });
   }
 
+  //-----------------------Validation for component PopUpName
+
   changeNameHandler = event => {
-    if (event.target.value.length > 3) {
-      this.setState({
-        name: event.target.value
-      });
+    const regExp = /^\w+$/gi;
+
+    if (event.target.value.length > 3 && regExp.test(event.target.value)) {
+      const popUpName = { ...this.state.popUpName };
+      popUpName.name = event.target.value;
+      popUpName.valid = true;
+
+      this.setState({ popUpName });
     } else return null;
   };
+
+  saveNameHandler = () => {
+    const popUpName = { ...this.state.popUpName };
+    popUpName.buttonClicked = true;
+    this.setState({ popUpName });
+
+    if (this.state.popUpName.name) {
+      setTimeout(() => {
+        localStorage.setItem("saveName", "true");
+        popUpName.saveName = localStorage.getItem("saveName");
+        localStorage.setItem("popupName", this.state.popUpName.name);
+        popUpName.name = localStorage.getItem("popupName");
+
+        console.log(popUpName);
+
+        this.setState({ popUpName });
+      }, 500);
+    } else {
+      return null;
+    }
+  };
+
+  popupNameValidation = () => {
+    if (this.state.popUpName.buttonClicked && !this.state.popUpName.valid) {
+      return (
+        <p style={{ color: "red", textTransform: "uppercase" }}>Invalid Name</p>
+      );
+    } else if (this.state.popUpName.valid) {
+      return (
+        <p style={{ color: "green", textTransform: "uppercase" }}>
+          Welcome {this.state.popUpName.name}
+        </p>
+      );
+    } else return null;
+  };
+
+  //--------------------------------------------------------------------------------
 
   render() {
     return (
       <div>
-        {this.state.name ? (
+        {this.state.popUpName.saveName ? (
           <div className="Layout">{this.renderColoms()}</div>
         ) : (
           <div>
             <div className="Layout">{this.renderColoms()}</div>
             <PopupName
-              // onSaveName={this.saveNameHandler}
               onChangeName={e => this.changeNameHandler(e)}
-            />
+              onSaveName={this.saveNameHandler}
+            >
+              {this.popupNameValidation()}
+            </PopupName>
           </div>
         )}
       </div>

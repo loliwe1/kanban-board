@@ -3,16 +3,22 @@ import "./Coloms.css";
 import Card from "../Card/Card";
 
 class Coloms extends React.Component {
-  renderCards() {
-    if (this.props.cards) {
-      return this.props.cards.map((card, index) => {
+  renderCards = () => {
+    const cards = this.props.cards;
+    if (cards) {
+      return cards.map((card, index) => {
         return (
-          <Card key={index} name={card.name} comment={card.comment}></Card>
+          <Card
+            key={index}
+            name={card.name}
+            comment={card.comment}
+            deleteCard={() => this.props.deleteCard(index)}
+          ></Card>
         );
       });
     }
     return null;
-  }
+  };
 
   render() {
     return (

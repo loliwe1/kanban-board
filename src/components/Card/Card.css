@@ -11,3 +11,16 @@
 .Card:hover {
   background: #dcdcdc;
 }
+
+.CardClose {
+  text-align: right;
+  width: 70px;
+  height: 100%;
+  margin-left: 180px;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+}
+
+.CardClose:hover {
+  color: #40e0d0;
+}
