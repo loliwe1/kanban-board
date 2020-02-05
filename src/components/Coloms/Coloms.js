@@ -1,6 +1,7 @@
 import React from "react";
 import "./Coloms.css";
 import Card from "../Card/Card";
+import NewCardCreator from "../NewCardCreator/NewCardCreator";
 
 class Coloms extends React.Component {
   renderCards = () => {
@@ -24,11 +25,19 @@ class Coloms extends React.Component {
     return (
       <div className="Coloms">
         <textarea
+          className="ColomsTextarea"
           onChange={this.props.onChangeTitle}
           defaultValue={this.props.name}
         ></textarea>
         {this.renderCards()}
         <p onClick={this.props.addNewCard}>&#10010; Добавить карточку</p>
+        {this.props.addNewCardState ? (
+          <NewCardCreator
+            closeCardCreator={this.props.closeCardCreator}
+            createNewCard={this.props.createNewCard}
+            onChangeNewCardTitle={this.props.onChangeNewCardTitle}
+          />
+        ) : null}
       </div>
     );
   }

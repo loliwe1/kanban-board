@@ -1,0 +1,54 @@
+.NewCardCreator {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.NewCardCreatorTextarea {
+  width: 100%;
+  height: 60px;
+  resize: none;
+  border: none;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-size: 15px;
+  color: black;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+
+.AddCardButton,
+.CloseCreateButton {
+  color: white;
+  width: 45%;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: 0.2s all ease-in-out;
+}
+
+.AddCardButton {
+  background: #5aac44;
+  margin-right: 10px;
+}
+
+.AddCardButton:hover {
+  background: #2e8b57;
+}
+
+.CloseCreateButton {
+  margin-left: 15px;
+  background: #fa8072;
+}
+
+.CloseCreateButton:hover {
+  background: #b22222;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}

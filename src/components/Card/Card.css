@@ -8,6 +8,10 @@
   transition: 0.2s all ease-in-out;
 }
 
+/* .Card:hover input {
+  background: #dcdcdc;
+} */
+
 .Card:hover {
   background: #dcdcdc;
 }
@@ -23,4 +27,10 @@
 
 .CardClose:hover {
   color: #40e0d0;
+}
+
+.Card input {
+  cursor: pointer;
+  border: none;
+  /* background: #fff; */
 }

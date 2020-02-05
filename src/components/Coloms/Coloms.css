@@ -9,7 +9,7 @@
   border-radius: 5px;
 }
 
-.Coloms textarea {
+.ColomsTextarea {
   background: #ebecf0;
   cursor: pointer;
   width: 100%;
@@ -20,7 +20,7 @@
   resize: none;
   overflow: hidden;
 }
-.Coloms textarea:focus {
+.ColomsTextarea:focus {
   outline: 1px solid #40e0d0;
   background: white;
 }

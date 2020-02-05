@@ -11,6 +11,7 @@ class Layout extends React.Component {
       buttonClicked: false,
       valid: false
     },
+    newCardValue: "",
     coloms: [
       {
         id: 0,
@@ -19,7 +20,8 @@ class Layout extends React.Component {
           { name: "Card1", comment: "1" },
           { name: "Card2", comment: "2" },
           { name: "Card3", comment: "3" }
-        ]
+        ],
+        addNewCard: false
       },
       {
         id: 1,
@@ -28,14 +30,21 @@ class Layout extends React.Component {
           { name: "Card4", comment: "4" },
           { name: "Card5", comment: "5" },
           { name: "Card6", comment: "6" }
-        ]
+        ],
+        addNewCard: false
       },
       {
         id: 2,
         name: localStorage.getItem(`colomTitle2`) || "Testing",
-        cards: []
+        cards: [],
+        addNewCard: false
       },
-      { id: 3, name: localStorage.getItem(`colomTitle3`) || "Done", cards: [] }
+      {
+        id: 3,
+        name: localStorage.getItem(`colomTitle3`) || "Done",
+        cards: [],
+        addNewCard: false
+      }
     ]
   };
 
@@ -53,7 +62,7 @@ class Layout extends React.Component {
 
   addNewCardHandler = index => {
     const coloms = this.state.coloms.concat();
-    coloms[index].cards.push({ name: "Введите название", comment: "0" });
+    coloms[index].addNewCard = true;
 
     this.setState({ coloms });
   };
@@ -66,6 +75,27 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  closeCardCreatorHandler = index => {
+    const coloms = [...this.state.coloms];
+    coloms[index].addNewCard = false;
+
+    this.setState({ coloms });
+  };
+
+  createNewCardHandler = index => {
+    const coloms = this.state.coloms.concat();
+    coloms[index].cards.push({ name: this.state.newCardValue, comment: "0" });
+    coloms[index].addNewCard = false;
+
+    this.setState({ coloms });
+  };
+
+  changeNewCardTitleHandler = value => {
+    let newCardValue = value;
+
+    this.setState({ newCardValue });
+  };
+
   renderColoms() {
     return this.state.coloms.map(colom => {
       return (
@@ -76,6 +106,12 @@ class Layout extends React.Component {
           cards={colom.cards}
           addNewCard={this.addNewCardHandler.bind(this, colom.id)}
           deleteCard={this.deleteCardsHandler.bind(this, colom.id)}
+          addNewCardState={colom.addNewCard}
+          closeCardCreator={this.closeCardCreatorHandler.bind(this, colom.id)}
+          createNewCard={this.createNewCardHandler.bind(this, colom.id)}
+          onChangeNewCardTitle={event =>
+            this.changeNewCardTitleHandler(event.target.value)
+          }
         />
       );
     });
@@ -106,8 +142,6 @@ class Layout extends React.Component {
         popUpName.saveName = localStorage.getItem("saveName");
         localStorage.setItem("popupName", this.state.popUpName.name);
         popUpName.name = localStorage.getItem("popupName");
-
-        console.log(popUpName);
 
         this.setState({ popUpName });
       }, 500);
