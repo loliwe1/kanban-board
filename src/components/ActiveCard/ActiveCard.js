@@ -4,8 +4,7 @@ import Comments from "../Comments/Comments";
 
 class ActiveCard extends React.Component {
   state = {
-    writeCommentFocus: false,
-    newComment: ""
+    writeCommentFocus: false
   };
 
   writeCommentFocus = () => {
@@ -14,10 +13,6 @@ class ActiveCard extends React.Component {
 
   writeCommentBlur = () => {
     this.setState({ writeCommentFocus: false });
-  };
-
-  writeCommentChange = event => {
-    this.setState({ newComment: event });
   };
 
   renderComments = () => {
@@ -69,11 +64,16 @@ class ActiveCard extends React.Component {
             <textarea
               onFocus={this.writeCommentFocus.bind(this)}
               onBlur={this.writeCommentBlur.bind(this)}
-              onChange={event => this.writeCommentChange(event.target.value)}
+              onChange={this.props.saveCommentText}
               className="WriteComment"
               placeholder="write a comment..."
             ></textarea>
-            <button className="WriteCommentButton">Save</button>
+            <button
+              onClick={this.props.postComment}
+              className="WriteCommentButton"
+            >
+              Save
+            </button>
           </div>
           {this.renderComments()}
           <button className="RemoveCard">Remove Card</button>

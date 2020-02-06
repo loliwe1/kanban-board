@@ -42,7 +42,8 @@ class Layout extends React.Component {
     openActiveCard: false,
     openActiveCardId: "",
     indexActiveCard: "",
-    activeCards: []
+    activeCards: [],
+    commentText: ""
   };
 
   changeTitleHandler = (index, event) => {
@@ -84,7 +85,6 @@ class Layout extends React.Component {
       const coloms = this.state.coloms.concat();
       coloms[index].cards.push({ name: this.state.newCardValue, comment: "0" });
       coloms[index].addNewCard = false;
-      console.log(coloms[index].cards.length - 1);
 
       const activeCards = this.state.activeCards;
       activeCards.push({
@@ -102,7 +102,6 @@ class Layout extends React.Component {
 
   changeNewCardTitleHandler = value => {
     let newCardValue = value;
-
     this.setState({ newCardValue });
   };
 
@@ -190,6 +189,21 @@ class Layout extends React.Component {
     this.setState({ openActiveCard: false });
   };
 
+  saveCommentTextHandler = event => {
+    this.setState({ commentText: event });
+  };
+
+  postCommentHandler = () => {
+    if (this.state.commentText) {
+      const activeCards = this.state.activeCards;
+      activeCards[this.state.indexActiveCard].comments.unshift(
+        this.state.commentText
+      );
+      this.setState({ activeCards });
+      this.setState({ commentText: "" });
+    } else return null;
+  };
+
   //-------------------------------------------------
 
   //----------------------------------------------Render
@@ -213,7 +227,6 @@ class Layout extends React.Component {
       }
     } else if (this.state.openActiveCard) {
       const activeCard = this.state.activeCards[this.state.indexActiveCard];
-
       return (
         <div>
           <div className="Layout">{this.renderColoms()}</div>
@@ -224,6 +237,13 @@ class Layout extends React.Component {
             title={activeCard.title}
             cardColom={activeCard.cardColom}
             comments={activeCard.comments}
+            saveCommentText={event =>
+              this.saveCommentTextHandler(
+                event.target.value,
+                this.state.indexActiveCards
+              )
+            }
+            postComment={this.postCommentHandler.bind(this)}
           />
         </div>
       );
