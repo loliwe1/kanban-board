@@ -1,0 +1,155 @@
+.ActiveCard {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.ActiveCardWrap {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 760px;
+  min-height: 700px;
+  margin: 0 auto;
+  background: #ebecf0;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  overflow: hidden;
+  padding-bottom: 100px;
+}
+.ActiveCardClose {
+  text-align: right;
+}
+.ActiveCardClose a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: #5e6c84;
+  transition: 0.2s all ease-in-out;
+  border: 0;
+  outline: none;
+  width: 50px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.ActiveCardClose a:hover {
+  color: #000;
+}
+
+.Description {
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  font-size: 18px;
+  resize: none;
+  background: #ebecf0;
+  border: none;
+  padding: 10px;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.Description:focus {
+  background: #fff;
+  outline: 1px solid #5e6c84;
+}
+
+.ActiveCardTitle {
+  margin-bottom: 35px;
+}
+
+.ActiveCardTitle h1 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.ActiveCardTitle small {
+  color: #5e6c84;
+  font-size: 14px;
+}
+.ActiveCardTitle span {
+  font-weight: bold;
+}
+
+.ActiveCardTitle p {
+  text-align: right;
+  color: #5e6c84;
+}
+
+.WriteCommentWrap {
+  overflow: hidden;
+  width: 100%;
+  height: 55px;
+  margin: 0 auto;
+  background: #fff;
+  margin-top: 20px;
+  border-radius: 5px;
+  transition: 0.2s all ease-in-out;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.WriteCommentWrapFocus {
+  height: 110px;
+}
+
+.WriteCommentWrap:hover {
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
+.WriteComment {
+  height: 55px;
+  padding-top: 15px;
+  padding-left: 10px;
+  resize: none;
+  font-size: 14px;
+  color: #000;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+
+.WriteCommentButton {
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: #5aac44;
+  box-shadow: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: 0.2s all ease-in-out;
+}
+
+.WriteCommentButton:hover {
+  background: #2e8b57;
+}
+
+.RemoveCard {
+  margin-top: 50px;
+  width: 120px;
+  height: 40px;
+  cursor: pointer;
+  background: #fa8072;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+.RemoveCard:hover {
+  background: #b22222;
+}

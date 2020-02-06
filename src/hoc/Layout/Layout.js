@@ -2,6 +2,7 @@ import React from "react";
 import "./Layout.css";
 import Coloms from "../../components/Coloms/Coloms";
 import PopupName from "../../components/PopupName/PopupName";
+import ActiveCard from "../../components/ActiveCard/ActiveCard";
 
 class Layout extends React.Component {
   state = {
@@ -83,11 +84,13 @@ class Layout extends React.Component {
   };
 
   createNewCardHandler = index => {
-    const coloms = this.state.coloms.concat();
-    coloms[index].cards.push({ name: this.state.newCardValue, comment: "0" });
-    coloms[index].addNewCard = false;
-
-    this.setState({ coloms });
+    if (this.state.newCardValue) {
+      const coloms = this.state.coloms.concat();
+      coloms[index].cards.push({ name: this.state.newCardValue, comment: "0" });
+      coloms[index].addNewCard = false;
+      this.setState({ coloms });
+      this.setState({ newCardValue: "" });
+    }
   };
 
   changeNewCardTitleHandler = value => {
@@ -182,6 +185,8 @@ class Layout extends React.Component {
             </PopupName>
           </div>
         )}
+        {/* <div className="Layout">{this.renderColoms()}</div>
+        <ActiveCard name={this.state.popUpName.name} /> */}
       </div>
     );
   }

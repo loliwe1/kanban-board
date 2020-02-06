@@ -1,0 +1,27 @@
+.Comments {
+  width: 100%;
+  height: 100%;
+  background: white;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  margin-top: 20px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.Comments span {
+  font-weight: bold;
+}
+
+.Comments a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: #5e6c84;
+  transition: 0.2s all ease-in-out;
+  border: 0;
+  outline: none;
+}
+
+.Comments a:hover {
+  color: #000;
+}
