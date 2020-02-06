@@ -42,7 +42,12 @@ class ActiveCard extends React.Component {
       <div className="ActiveCard">
         <div className="ActiveCardWrap">
           <div className="ActiveCardClose">
-            <a onClick={this.props.closeActiveCard}>Close</a>
+            <p
+              className="ActiveCardCloseLink"
+              onClick={this.props.closeActiveCard}
+            >
+              Close
+            </p>
           </div>
           <div className="ActiveCardTitle">
             <h1>{this.props.title}</h1>
@@ -57,6 +62,7 @@ class ActiveCard extends React.Component {
           <textarea
             className="Description"
             placeholder="Enter a description for the card!"
+            defaultValue={this.props.description}
           ></textarea>
           <div>Comments:</div>
           <div className={writeCommentStyle.join(" ")}>

@@ -13,15 +13,21 @@
   font-weight: bold;
 }
 
-.Comments a {
+.CommentsRedact,
+.CommentsRemove {
   text-decoration: none;
   margin-right: 10px;
   color: #5e6c84;
   transition: 0.2s all ease-in-out;
   border: 0;
   outline: none;
+  cursor: pointer;
+  display: inline-block;
 }
 
-.Comments a:hover {
+.CommentsRedact:hover {
+  color: #000;
+}
+.CommentsRemove:hover {
   color: #000;
 }

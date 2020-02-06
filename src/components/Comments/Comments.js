@@ -9,8 +9,8 @@ const Comments = props => {
       </p>
       <p>{props.children}</p>
       <hr />
-      <a href="#">Redact</a>
-      <a href="#">Remove</a>
+      <p className="CommentsRedact">Redact</p>
+      <p className="CommentsRemove">Remove</p>
     </div>
   );
 };

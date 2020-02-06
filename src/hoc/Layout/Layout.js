@@ -17,21 +17,13 @@ class Layout extends React.Component {
       {
         id: 0,
         name: localStorage.getItem(`colomTitle0`) || "TODO",
-        cards: [
-          { name: "Card1", comment: "1" },
-          { name: "Card2", comment: "2" },
-          { name: "Card3", comment: "3" }
-        ],
+        cards: [],
         addNewCard: false
       },
       {
         id: 1,
         name: localStorage.getItem(`colomTitle1`) || "In Progress",
-        cards: [
-          { name: "Card4", comment: "4" },
-          { name: "Card5", comment: "5" },
-          { name: "Card6", comment: "6" }
-        ],
+        cards: [],
         addNewCard: false
       },
       {
@@ -50,29 +42,7 @@ class Layout extends React.Component {
     openActiveCard: false,
     openActiveCardId: "",
     indexActiveCard: "",
-    activeCards: [
-      {
-        cardId: "0-1",
-        title: "card1",
-        cardColom: "ToDO",
-        description: "Its best active card in the world",
-        comments: ["comment1", "comment2", "comment3"]
-      },
-      {
-        cardId: "0-2",
-        title: "card2",
-        cardColom: "ToDO",
-        description: "Its best active card in the world",
-        comments: ["comment1", "comment2", "comment3"]
-      },
-      {
-        cardId: "1-1",
-        title: "SuperPupper",
-        cardColom: "In progress",
-        description: "Its best active card in the world!!!!",
-        comments: ["comment1", "comment2", "comment3"]
-      }
-    ]
+    activeCards: []
   };
 
   changeTitleHandler = (index, event) => {
@@ -114,6 +84,17 @@ class Layout extends React.Component {
       const coloms = this.state.coloms.concat();
       coloms[index].cards.push({ name: this.state.newCardValue, comment: "0" });
       coloms[index].addNewCard = false;
+      console.log(coloms[index].cards.length - 1);
+
+      const activeCards = this.state.activeCards;
+      activeCards.push({
+        cardId: `${index}-${coloms[index].cards.length - 1}`,
+        title: this.state.newCardValue,
+        cardColom: coloms[index].name,
+        description: "",
+        comments: []
+      });
+
       this.setState({ coloms });
       this.setState({ newCardValue: "" });
     }
