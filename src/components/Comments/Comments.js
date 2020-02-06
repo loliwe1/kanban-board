@@ -7,16 +7,7 @@ const Comments = props => {
       <p>
         <span>{props.name}&#160;:</span>{" "}
       </p>
-
-      <p>
-        {props.commentText}
-        hellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafsdfhelloellosfs
-        afsdfhellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafsd
-        fhellosfsafsdfvellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafs
-        dfhellosfsafsdfhellosfsafsdfvsfsafsdfhellosfsafsdfhellosfsafsdfv
-        fhellosfsafsdfvellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafsdfhellosfsafs
-        dfhellosfsafsdfhellosfsafsdfvsfsafsdfhellosfsafsdfhellosfsafsdfv{" "}
-      </p>
+      <p>{props.children}</p>
       <hr />
       <a href="#">Redact</a>
       <a href="#">Remove</a>

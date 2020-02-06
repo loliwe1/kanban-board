@@ -20,6 +20,18 @@ class ActiveCard extends React.Component {
     this.setState({ newComment: event });
   };
 
+  renderComments = () => {
+    const comments = this.props.comments;
+
+    return comments.map((comment, index) => {
+      return (
+        <Comments name={this.props.name} key={index}>
+          {comment}
+        </Comments>
+      );
+    });
+  };
+
   render() {
     const writeCommentStyle = ["WriteCommentWrap"];
 
@@ -30,12 +42,12 @@ class ActiveCard extends React.Component {
       <div className="ActiveCard">
         <div className="ActiveCardWrap">
           <div className="ActiveCardClose">
-            <a href="#">Close</a>
+            <a onClick={this.props.closeActiveCard}>Close</a>
           </div>
           <div className="ActiveCardTitle">
-            <h1>New Card!</h1>
+            <h1>{this.props.title}</h1>
             <small>
-              In colomn: <span>TODO</span>
+              In colomn: <span>{this.props.cardColom}</span>
             </small>
             <p>
               Created a card: <span>{this.props.name}</span>
@@ -57,14 +69,7 @@ class ActiveCard extends React.Component {
             ></textarea>
             <button className="WriteCommentButton">Save</button>
           </div>
-          <Comments
-            name={this.props.name}
-            commentText={this.state.newComment}
-          />
-          <Comments
-            name={this.props.name}
-            commentText={this.state.newComment}
-          />
+          {this.renderComments()}
           <button className="RemoveCard">Remove Card</button>
         </div>
       </div>

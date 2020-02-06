@@ -3,7 +3,7 @@ import "./Card.css";
 
 const Card = props => {
   return (
-    <div className="Card">
+    <div onClick={props.openActiveCard} className="Card">
       <div className="CardClose" onClick={props.deleteCard}>
         &#10008;
       </div>

@@ -46,6 +46,32 @@ class Layout extends React.Component {
         cards: [],
         addNewCard: false
       }
+    ],
+    openActiveCard: false,
+    openActiveCardId: "",
+    indexActiveCard: "",
+    activeCards: [
+      {
+        cardId: "0-1",
+        title: "card1",
+        cardColom: "ToDO",
+        description: "Its best active card in the world",
+        comments: ["comment1", "comment2", "comment3"]
+      },
+      {
+        cardId: "0-2",
+        title: "card2",
+        cardColom: "ToDO",
+        description: "Its best active card in the world",
+        comments: ["comment1", "comment2", "comment3"]
+      },
+      {
+        cardId: "1-1",
+        title: "SuperPupper",
+        cardColom: "In progress",
+        description: "Its best active card in the world!!!!",
+        comments: ["comment1", "comment2", "comment3"]
+      }
     ]
   };
 
@@ -99,6 +125,15 @@ class Layout extends React.Component {
     this.setState({ newCardValue });
   };
 
+  openActiveCardHandler = (colomId, index) => {
+    const openActiveCardId = `${colomId}-${index}`;
+    const indexActiveCard = this.state.activeCards.findIndex(
+      item => item.cardId === openActiveCardId
+    );
+
+    this.setState({ openActiveCard: true, openActiveCardId, indexActiveCard });
+  };
+
   renderColoms() {
     return this.state.coloms.map(colom => {
       return (
@@ -115,6 +150,7 @@ class Layout extends React.Component {
           onChangeNewCardTitle={event =>
             this.changeNewCardTitleHandler(event.target.value)
           }
+          openActiveCard={this.openActiveCardHandler.bind(this, colom.id)}
         />
       );
     });
@@ -168,13 +204,21 @@ class Layout extends React.Component {
   };
 
   //--------------------------------------------------------------------------------
+  //---------------------------------------ActiveCard
+  closeActiveCardHandler = () => {
+    this.setState({ openActiveCard: false });
+  };
 
-  render() {
-    return (
-      <div>
-        {this.state.popUpName.saveName ? (
-          <div className="Layout">{this.renderColoms()}</div>
-        ) : (
+  //-------------------------------------------------
+
+  //----------------------------------------------Render
+
+  renderLayout = () => {
+    if (!this.state.openActiveCard) {
+      if (this.state.popUpName.saveName) {
+        return <div className="Layout">{this.renderColoms()}</div>;
+      } else {
+        return (
           <div>
             <div className="Layout">{this.renderColoms()}</div>
             <PopupName
@@ -184,11 +228,29 @@ class Layout extends React.Component {
               {this.popupNameValidation()}
             </PopupName>
           </div>
-        )}
-        {/* <div className="Layout">{this.renderColoms()}</div>
-        <ActiveCard name={this.state.popUpName.name} /> */}
-      </div>
-    );
+        );
+      }
+    } else if (this.state.openActiveCard) {
+      const activeCard = this.state.activeCards[this.state.indexActiveCard];
+
+      return (
+        <div>
+          <div className="Layout">{this.renderColoms()}</div>
+          <ActiveCard
+            name={this.state.popUpName.name}
+            closeActiveCard={this.closeActiveCardHandler.bind(this)}
+            description={activeCard.description}
+            title={activeCard.title}
+            cardColom={activeCard.cardColom}
+            comments={activeCard.comments}
+          />
+        </div>
+      );
+    }
+  };
+
+  render() {
+    return <div>{this.renderLayout()}</div>;
   }
 }
 
