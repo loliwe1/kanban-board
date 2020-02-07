@@ -10,7 +10,9 @@ const Comments = props => {
       <p>{props.children}</p>
       <hr />
       <p className="CommentsRedact">Redact</p>
-      <p className="CommentsRemove">Remove</p>
+      <p onClick={props.deleteComment} className="CommentsRemove">
+        Remove
+      </p>
     </div>
   );
 };

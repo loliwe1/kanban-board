@@ -9,7 +9,7 @@ const Card = props => {
       </div>
       <h3>{props.name}</h3>
       <small>
-        Комментарии: <span>{props.comment}</span>
+        Комментарии: <span>{}</span>
       </small>
     </div>
   );

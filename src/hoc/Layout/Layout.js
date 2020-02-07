@@ -46,6 +46,7 @@ class Layout extends React.Component {
     commentText: ""
   };
 
+  //Changes the Column Title
   changeTitleHandler = (index, event) => {
     const coloms = this.state.coloms.concat();
     let target = event.target.value;
@@ -58,6 +59,7 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  //Open Card Creator
   addNewCardHandler = index => {
     const coloms = this.state.coloms.concat();
     coloms[index].addNewCard = true;
@@ -65,6 +67,7 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  //Removes a card from a column
   deleteCardsHandler = (id, index) => {
     const coloms = [...this.state.coloms];
     const cards = coloms[id].cards;
@@ -73,6 +76,7 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  //Close Card Creator
   closeCardCreatorHandler = index => {
     const coloms = [...this.state.coloms];
     coloms[index].addNewCard = false;
@@ -80,13 +84,14 @@ class Layout extends React.Component {
     this.setState({ coloms });
   };
 
+  //Adds Card to a Column
   createNewCardHandler = index => {
     if (this.state.newCardValue) {
       const coloms = this.state.coloms.concat();
-      coloms[index].cards.push({ name: this.state.newCardValue, comment: "0" });
+      coloms[index].cards.push({ name: this.state.newCardValue });
       coloms[index].addNewCard = false;
 
-      const activeCards = this.state.activeCards;
+      const activeCards = this.state.activeCards; //Create Active Card
       activeCards.push({
         cardId: `${index}-${coloms[index].cards.length - 1}`,
         title: this.state.newCardValue,
@@ -100,11 +105,13 @@ class Layout extends React.Component {
     }
   };
 
+  // Adds a Card Title to a temporary field(this.state.newCardValue)
   changeNewCardTitleHandler = value => {
     let newCardValue = value;
     this.setState({ newCardValue });
   };
 
+  //Opens an Active Card
   openActiveCardHandler = (colomId, index) => {
     const openActiveCardId = `${colomId}-${index}`;
     const indexActiveCard = this.state.activeCards.findIndex(
@@ -185,14 +192,18 @@ class Layout extends React.Component {
 
   //--------------------------------------------------------------------------------
   //---------------------------------------ActiveCard
+
+  //Close Active Card
   closeActiveCardHandler = () => {
     this.setState({ openActiveCard: false });
   };
 
+  //Save comments Text
   saveCommentTextHandler = event => {
     this.setState({ commentText: event });
   };
 
+  //add Comment to the Card
   postCommentHandler = () => {
     if (this.state.commentText) {
       const activeCards = this.state.activeCards;
@@ -204,6 +215,12 @@ class Layout extends React.Component {
     } else return null;
   };
 
+  //delete Comment from Card
+  deleteCommentHandler = index => {
+    const activeCards = this.state.activeCards;
+    activeCards[this.state.indexActiveCard].comments.splice(index, 1);
+    this.setState({ activeCards });
+  };
   //-------------------------------------------------
 
   //----------------------------------------------Render
@@ -225,6 +242,7 @@ class Layout extends React.Component {
           </div>
         );
       }
+      //if an Active Card is open
     } else if (this.state.openActiveCard) {
       const activeCard = this.state.activeCards[this.state.indexActiveCard];
       return (
@@ -244,12 +262,13 @@ class Layout extends React.Component {
               )
             }
             postComment={this.postCommentHandler.bind(this)}
+            deleteComment={this.deleteCommentHandler.bind(this)}
           />
         </div>
       );
     }
   };
-
+  //----------------------------------------------------------------------
   render() {
     return <div>{this.renderLayout()}</div>;
   }

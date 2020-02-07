@@ -20,7 +20,11 @@ class ActiveCard extends React.Component {
 
     return comments.map((comment, index) => {
       return (
-        <Comments name={this.props.name} key={index}>
+        <Comments
+          name={this.props.name}
+          key={index}
+          deleteComment={() => this.props.deleteComment(index)}
+        >
           {comment}
         </Comments>
       );
