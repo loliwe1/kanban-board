@@ -34,7 +34,7 @@ class ActiveCard extends React.Component {
   render() {
     const writeCommentStyle = ["WriteCommentWrap"];
 
-    if (this.state.writeCommentFocus || this.state.newComment !== "") {
+    if (this.state.writeCommentFocus || this.props.commentText) {
       writeCommentStyle.push("WriteCommentWrapFocus");
     }
     return (
@@ -62,6 +62,7 @@ class ActiveCard extends React.Component {
             className="Description"
             placeholder="Enter a description for the card!"
             defaultValue={this.props.description}
+            onChange={this.props.changeActiveCardDescription}
           ></textarea>
           <div>Comments:</div>
           <div className={writeCommentStyle.join(" ")}>

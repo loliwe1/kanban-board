@@ -221,6 +221,12 @@ class Layout extends React.Component {
     activeCards[this.state.indexActiveCard].comments.splice(index, 1);
     this.setState({ activeCards });
   };
+
+  changeActiveCardDescriptionHandler = event => {
+    const activeCards = this.state.activeCards;
+    activeCards[this.state.indexActiveCard].description = event;
+    this.setState({ activeCards });
+  };
   //-------------------------------------------------
 
   //----------------------------------------------Render
@@ -263,6 +269,10 @@ class Layout extends React.Component {
             }
             postComment={this.postCommentHandler.bind(this)}
             deleteComment={this.deleteCommentHandler.bind(this)}
+            changeActiveCardDescription={event =>
+              this.changeActiveCardDescriptionHandler(event.target.value)
+            }
+            commentText={this.state.commentText}
           />
         </div>
       );
