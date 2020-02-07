@@ -83,7 +83,9 @@ class ActiveCard extends React.Component {
             </button>
           </div>
           {this.renderComments()}
-          <button className="RemoveCard">Remove Card</button>
+          <button onClick={this.props.removeCard} className="RemoveCard">
+            Remove Card
+          </button>
         </div>
       </div>
     );

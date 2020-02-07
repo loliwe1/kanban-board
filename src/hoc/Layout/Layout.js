@@ -235,6 +235,21 @@ class Layout extends React.Component {
       this.setState({ activeCards });
     }
   };
+
+  removeCardHandler = () => {
+    //Delete Card from Colomn
+    const activeCard = this.state.activeCards[this.state.indexActiveCard]
+      .cardId;
+    const coloms = this.state.coloms.concat();
+    const colomId = activeCard.match(/\d+(?=-)/)[0];
+    coloms[colomId].cards.splice(this.state.indexActiveCard, 1);
+
+    //Delete ActiveCard
+    const activeCards = this.state.activeCards;
+    activeCards.splice(this.state.indexActiveCard, 1);
+
+    this.setState({ coloms, openActiveCard: false, activeCards });
+  };
   //-------------------------------------------------
 
   //----------------------------------------------Render
@@ -282,6 +297,7 @@ class Layout extends React.Component {
             }
             commentText={this.state.commentText}
             changeCommentText={this.changeCommentTextHandler.bind(this)}
+            removeCard={this.removeCardHandler.bind(this)}
           />
         </div>
       );
