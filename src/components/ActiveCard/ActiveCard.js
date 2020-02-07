@@ -23,7 +23,9 @@ class ActiveCard extends React.Component {
         <Comments
           name={this.props.name}
           key={index}
+          index={index}
           deleteComment={() => this.props.deleteComment(index)}
+          changeCommentText={this.props.changeCommentText}
         >
           {comment}
         </Comments>

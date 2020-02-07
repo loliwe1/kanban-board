@@ -4,20 +4,38 @@ import "./Comments.css";
 class Comments extends React.Component {
   state = {
     redactComment: false,
-    changeCommentFocus: false
+    changeCommentFocus: false,
+    commentText: ""
   };
 
   redactCommentHandler = () => {
-    this.setState({ redactComment: true, changeCommentFocus: true });
+    const commentText = this.props.children;
+    this.setState({
+      redactComment: true,
+      changeCommentFocus: true,
+      commentText: commentText
+    });
   };
 
   changeCommentFocusHandler = () => {
-    this.setState({ changeCommentFocus: false });
+    if (this.state.commentText === "") {
+      this.setState({ changeCommentFocus: false });
+    } else return null;
+  };
+
+  changeCommentText = event => {
+    this.setState({ commentText: event });
+  };
+
+  saveTextComment = () => {
+    this.setState({ redactComment: false });
   };
 
   commentsRender = () => {
+    const commentText = this.state.commentText;
     const redact = this.state.redactComment;
-    if (redact && this.state.changeCommentFocus) {
+    const index = this.props.index;
+    if (redact) {
       return (
         <div>
           <textarea
@@ -25,8 +43,20 @@ class Comments extends React.Component {
             onBlur={this.changeCommentFocusHandler.bind(this)}
             autoFocus
             defaultValue={this.props.children}
+            onChange={event => this.changeCommentText(event.target.value)}
           />
-          <button className="CommentChangeButton">Save</button>
+          <button
+            onClick={() =>
+              this.props.changeCommentText(
+                commentText,
+                index,
+                this.saveTextComment.call(this)
+              )
+            }
+            className="CommentChangeButton"
+          >
+            Save
+          </button>
         </div>
       );
     } else {

@@ -227,6 +227,14 @@ class Layout extends React.Component {
     activeCards[this.state.indexActiveCard].description = event;
     this.setState({ activeCards });
   };
+
+  changeCommentTextHandler = (commentText, index) => {
+    if (commentText) {
+      const activeCards = this.state.activeCards;
+      activeCards[this.state.indexActiveCard].comments[index] = commentText;
+      this.setState({ activeCards });
+    }
+  };
   //-------------------------------------------------
 
   //----------------------------------------------Render
@@ -273,6 +281,7 @@ class Layout extends React.Component {
               this.changeActiveCardDescriptionHandler(event.target.value)
             }
             commentText={this.state.commentText}
+            changeCommentText={this.changeCommentTextHandler.bind(this)}
           />
         </div>
       );
