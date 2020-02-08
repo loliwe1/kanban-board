@@ -41,7 +41,10 @@ class ActiveCard extends React.Component {
     }
     return (
       <div className="ActiveCard">
-        <div className="ActiveCardWrap">
+        <div
+          onKeyPress={this.props.closeActiveCardEsc}
+          className="ActiveCardWrap"
+        >
           <div className="ActiveCardClose">
             <p
               className="ActiveCardCloseLink"

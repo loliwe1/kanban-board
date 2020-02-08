@@ -138,6 +138,7 @@ class Layout extends React.Component {
             this.changeNewCardTitleHandler(event.target.value)
           }
           openActiveCard={this.openActiveCardHandler.bind(this, colom.id)}
+          commentsCounter={this.state.activeCards}
         />
       );
     });
@@ -250,6 +251,11 @@ class Layout extends React.Component {
 
     this.setState({ coloms, openActiveCard: false, activeCards });
   };
+
+  closeActiveCardEscHandler = event => {
+    console.log(event.code);
+    console.log(event.charCode);
+  };
   //-------------------------------------------------
 
   //----------------------------------------------Render
@@ -298,6 +304,7 @@ class Layout extends React.Component {
             commentText={this.state.commentText}
             changeCommentText={this.changeCommentTextHandler.bind(this)}
             removeCard={this.removeCardHandler.bind(this)}
+            closeActiveCardEsc={event => this.closeActiveCardEscHandler(event)}
           />
         </div>
       );
