@@ -15,6 +15,29 @@ class ActiveCard extends React.Component {
     this.setState({ writeCommentFocus: false });
   };
 
+  renderTitle = () => {
+    if (!this.props.activeTitle) {
+      return <h1 onClick={this.props.changeTitleActive}>{this.props.title}</h1>;
+    } else if (this.props.activeTitle) {
+      return (
+        <div>
+          <textarea
+            className="TitleTextArea"
+            defaultValue={this.props.title}
+            autoFocus
+            onChange={this.props.changeCardTitle}
+          ></textarea>
+          <button onClick={this.props.saveTitleChanger} className="SaveTitle">
+            Save
+          </button>
+          <button onClick={this.props.closeTitleChanger} className="CloseTitle">
+            Close
+          </button>
+        </div>
+      );
+    }
+  };
+
   renderComments = () => {
     const comments = this.props.comments;
 
@@ -54,7 +77,7 @@ class ActiveCard extends React.Component {
             </p>
           </div>
           <div className="ActiveCardTitle">
-            <h1>{this.props.title}</h1>
+            {this.renderTitle()}
             <small>
               In colomn: <span>{this.props.cardColom}</span>
             </small>

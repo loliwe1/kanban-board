@@ -43,7 +43,9 @@ class Layout extends React.Component {
     openActiveCardId: "",
     indexActiveCard: "",
     activeCards: [],
-    commentText: ""
+    commentText: "",
+    titleText: "",
+    activeTitle: false
   };
 
   //Changes the Column Title
@@ -252,9 +254,39 @@ class Layout extends React.Component {
     this.setState({ coloms, openActiveCard: false, activeCards });
   };
 
+  changeCardTitleHandler = event => {
+    this.setState({ titleText: event });
+  };
+
+  changeTitleActiveHandler = () => {
+    this.setState({ activeTitle: true });
+  };
+
+  closeTitleChangerHandler = () => {
+    this.setState({ titleText: "", activeTitle: false });
+  };
+
+  saveTitleChangerHandler = () => {
+    if (this.state.titleText) {
+      const activeCards = this.state.activeCards;
+      activeCards[this.state.indexActiveCard].title = this.state.titleText;
+      const activeCard = this.state.activeCards[this.state.indexActiveCard]
+        .cardId;
+      const coloms = this.state.coloms.concat();
+      const colomId = activeCard.match(/\d+(?=-)/)[0];
+      coloms[colomId].cards[
+        this.state.indexActiveCard
+      ].name = this.state.titleText;
+
+      this.setState({ coloms, activeCards, activeTitle: false, titleText: "" });
+    } else {
+      this.setState({ activeTitle: false });
+    }
+  };
+
   closeActiveCardEscHandler = event => {
-    console.log(event.code);
-    console.log(event.charCode);
+    // console.log(event.code);
+    // console.log(event.charCode);
   };
   //-------------------------------------------------
 
@@ -305,6 +337,13 @@ class Layout extends React.Component {
             changeCommentText={this.changeCommentTextHandler.bind(this)}
             removeCard={this.removeCardHandler.bind(this)}
             closeActiveCardEsc={event => this.closeActiveCardEscHandler(event)}
+            changeTitleActive={this.changeTitleActiveHandler.bind(this)}
+            changeCardTitle={event =>
+              this.changeCardTitleHandler(event.target.value)
+            }
+            closeTitleChanger={this.closeTitleChangerHandler.bind(this)}
+            activeTitle={this.state.activeTitle}
+            saveTitleChanger={this.saveTitleChangerHandler.bind(this)}
           />
         </div>
       );
