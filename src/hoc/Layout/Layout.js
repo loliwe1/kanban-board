@@ -6,6 +6,7 @@ import ActiveCard from "../../components/ActiveCard/ActiveCard";
 
 class Layout extends React.Component {
   state = {
+    // clearState: localStorage.clear(),
     popUpName: {
       name: localStorage.getItem("popupName"),
       saveName: localStorage.getItem("saveName"),
@@ -17,32 +18,32 @@ class Layout extends React.Component {
       {
         id: 0,
         name: localStorage.getItem(`colomTitle0`) || "TODO",
-        cards: [],
+        cards: JSON.parse(localStorage.getItem(`colom0`)),
         addNewCard: false
       },
       {
         id: 1,
         name: localStorage.getItem(`colomTitle1`) || "In Progress",
-        cards: [],
+        cards: JSON.parse(localStorage.getItem(`colom1`)),
         addNewCard: false
       },
       {
         id: 2,
         name: localStorage.getItem(`colomTitle2`) || "Testing",
-        cards: [],
+        cards: JSON.parse(localStorage.getItem(`colom2`)),
         addNewCard: false
       },
       {
         id: 3,
         name: localStorage.getItem(`colomTitle3`) || "Done",
-        cards: [],
+        cards: JSON.parse(localStorage.getItem(`colom3`)),
         addNewCard: false
       }
     ],
     openActiveCard: false,
     openActiveCardId: "",
     indexActiveCard: "",
-    activeCards: [],
+    activeCards: JSON.parse(localStorage.getItem("activeCards")) || [],
     commentText: "",
     titleText: "",
     activeTitle: false
@@ -89,21 +90,39 @@ class Layout extends React.Component {
   //Adds Card to a Column
   createNewCardHandler = index => {
     if (this.state.newCardValue) {
+      let cards = "";
+      if (localStorage.getItem(`colom${index}`)) {
+        cards = JSON.parse(localStorage.getItem(`colom${index}`));
+      } else {
+        cards = [];
+      }
+      cards.push({ name: this.state.newCardValue });
+      const jsn = JSON.stringify(cards);
+      localStorage.setItem(`colom${index}`, jsn);
+
       const coloms = this.state.coloms.concat();
-      coloms[index].cards.push({ name: this.state.newCardValue });
+      coloms[index].cards = JSON.parse(localStorage.getItem(`colom${index}`));
       coloms[index].addNewCard = false;
 
-      const activeCards = this.state.activeCards; //Create Active Card
-      activeCards.push({
+      let activeCard; //Create Active Card
+
+      if (localStorage.getItem("activeCards")) {
+        activeCard = JSON.parse(localStorage.getItem("activeCards"));
+      } else {
+        activeCard = [];
+      }
+      activeCard.push({
         cardId: `${index}-${coloms[index].cards.length - 1}`,
         title: this.state.newCardValue,
         cardColom: coloms[index].name,
         description: "",
         comments: []
       });
+      const jsnActive = JSON.stringify(activeCard);
+      localStorage.setItem("activeCards", jsnActive);
+      const activeCards = JSON.parse(localStorage.getItem("activeCards"));
 
-      this.setState({ coloms });
-      this.setState({ newCardValue: "" });
+      this.setState({ coloms, newCardValue: "", activeCards });
     }
   };
 
@@ -113,10 +132,11 @@ class Layout extends React.Component {
     this.setState({ newCardValue });
   };
 
-  //Opens an Active Card
+  //Open Active Card
   openActiveCardHandler = (colomId, index) => {
+    const parseActiveCard = JSON.parse(localStorage.getItem("activeCards"));
     const openActiveCardId = `${colomId}-${index}`;
-    const indexActiveCard = this.state.activeCards.findIndex(
+    const indexActiveCard = parseActiveCard.findIndex(
       item => item.cardId === openActiveCardId
     );
 
@@ -208,49 +228,79 @@ class Layout extends React.Component {
   //add Comment to the Card
   postCommentHandler = () => {
     if (this.state.commentText) {
-      const activeCards = this.state.activeCards;
-      activeCards[this.state.indexActiveCard].comments.unshift(
+      const activeCard = JSON.parse(localStorage.getItem("activeCards"));
+      activeCard[this.state.indexActiveCard].comments.unshift(
         this.state.commentText
       );
-      this.setState({ activeCards });
-      this.setState({ commentText: "" });
+
+      const jsn = JSON.stringify(activeCard);
+      localStorage.setItem("activeCards", jsn);
+      const activeCards = JSON.parse(localStorage.getItem("activeCards"));
+
+      this.setState({ activeCards, commentText: "" });
     } else return null;
   };
 
   //delete Comment from Card
   deleteCommentHandler = index => {
-    const activeCards = this.state.activeCards;
-    activeCards[this.state.indexActiveCard].comments.splice(index, 1);
+    const activeCard = JSON.parse(localStorage.getItem("activeCards"));
+    activeCard[this.state.indexActiveCard].comments.splice(index, 1);
+    const jsn = JSON.stringify(activeCard);
+
+    localStorage.setItem("activeCards", jsn);
+    const activeCards = JSON.parse(localStorage.getItem("activeCards"));
+
     this.setState({ activeCards });
   };
 
   changeActiveCardDescriptionHandler = event => {
-    const activeCards = this.state.activeCards;
-    activeCards[this.state.indexActiveCard].description = event;
+    const activeCard = JSON.parse(localStorage.getItem("activeCards"));
+    activeCard[this.state.indexActiveCard].description = event;
+
+    const jsn = JSON.stringify(activeCard);
+    localStorage.setItem("activeCards", jsn);
+    const activeCards = JSON.parse(localStorage.getItem("activeCards"));
+
     this.setState({ activeCards });
   };
 
   changeCommentTextHandler = (commentText, index) => {
     if (commentText) {
-      const activeCards = this.state.activeCards;
-      activeCards[this.state.indexActiveCard].comments[index] = commentText;
+      const activeCard = JSON.parse(localStorage.getItem("activeCards"));
+      activeCard[this.state.indexActiveCard].comments[index] = commentText;
+
+      const jsn = JSON.stringify(activeCard);
+      localStorage.setItem("activeCards", jsn);
+      const activeCards = JSON.parse(localStorage.getItem("activeCards"));
+
       this.setState({ activeCards });
     }
   };
 
   removeCardHandler = () => {
-    console.log(this.state.activeCards);
     //Delete Card from Colomn
-    const activeCard = this.state.activeCards[this.state.indexActiveCard]
-      .cardId;
+    const parseActiveCard = JSON.parse(localStorage.getItem("activeCards"));
+    const activeCardId = parseActiveCard[this.state.indexActiveCard].cardId;
     const coloms = this.state.coloms.concat();
-    const colomId = activeCard.match(/\d+/)[0];
-    const cardIds = activeCard.match(/\d+(?![-])/)[0];
-    coloms[colomId].cards.splice(cardIds, 1);
+    const colomId = activeCardId.match(/\d+/)[0];
+    const cardIds = activeCardId.match(/\d+(?![-])/)[0];
+
+    const cards = JSON.parse(localStorage.getItem(`colom${colomId}`));
+    cards.splice(cardIds, 1);
+
+    const jsn = JSON.stringify(cards);
+    localStorage.setItem(`colom${colomId}`, jsn);
+
+    coloms[colomId].cards = JSON.parse(localStorage.getItem(`colom${colomId}`));
 
     //Delete ActiveCard
-    const activeCards = this.state.activeCards;
-    activeCards.splice(this.state.indexActiveCard, 1);
+    const activeCard = parseActiveCard;
+    activeCard.splice(this.state.indexActiveCard, 1);
+
+    const jsnActive = JSON.stringify(activeCard);
+    localStorage.setItem("activeCards", jsnActive);
+
+    const activeCards = JSON.parse(localStorage.getItem("activeCards"));
 
     this.setState({ openActiveCard: false, activeCards, coloms });
   };
@@ -269,14 +319,25 @@ class Layout extends React.Component {
 
   saveTitleChangerHandler = () => {
     if (this.state.titleText) {
-      const activeCards = this.state.activeCards;
-      activeCards[this.state.indexActiveCard].title = this.state.titleText;
-      const activeCard = this.state.activeCards[this.state.indexActiveCard]
+      const activeCard = JSON.parse(localStorage.getItem("activeCards"));
+      activeCard[this.state.indexActiveCard].title = this.state.titleText;
+      const activeCardId = this.state.activeCards[this.state.indexActiveCard]
         .cardId;
+      const jsnActive = JSON.stringify(activeCard);
+      localStorage.setItem("activeCards", jsnActive);
+      const activeCards = JSON.parse(localStorage.getItem("activeCards"));
+
       const coloms = this.state.coloms.concat();
-      const colomId = activeCard.match(/\d+/)[0];
-      const cardId = activeCard.match(/\d+(?![-])/)[0];
-      coloms[colomId].cards[cardId].name = this.state.titleText;
+      const colomId = activeCardId.match(/\d+/)[0];
+      const cardId = activeCardId.match(/\d+(?![-])/)[0];
+
+      const cards = JSON.parse(localStorage.getItem(`colom${colomId}`));
+      cards[cardId].name = this.state.titleText;
+      const jsn = JSON.stringify(cards);
+      localStorage.setItem(`colom${colomId}`, jsn);
+      coloms[colomId].cards = JSON.parse(
+        localStorage.getItem(`colom${colomId}`)
+      );
 
       this.setState({ coloms, activeCards, activeTitle: false, titleText: "" });
     } else {
@@ -311,7 +372,7 @@ class Layout extends React.Component {
       }
       //if an Active Card is open
     } else if (this.state.openActiveCard) {
-      const activeCard = this.state.activeCards[this.state.indexActiveCard];
+      let activeCard = this.state.activeCards[this.state.indexActiveCard];
       return (
         <div>
           <div className="Layout">{this.renderColoms()}</div>
