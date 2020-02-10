@@ -140,7 +140,6 @@ class Layout extends React.Component {
             this.changeNewCardTitleHandler(event.target.value)
           }
           openActiveCard={this.openActiveCardHandler.bind(this, colom.id)}
-          commentsCounter={this.state.activeCards}
         />
       );
     });
@@ -240,18 +239,20 @@ class Layout extends React.Component {
   };
 
   removeCardHandler = () => {
+    console.log(this.state.activeCards);
     //Delete Card from Colomn
     const activeCard = this.state.activeCards[this.state.indexActiveCard]
       .cardId;
     const coloms = this.state.coloms.concat();
-    const colomId = activeCard.match(/\d+(?=-)/)[0];
-    coloms[colomId].cards.splice(this.state.indexActiveCard, 1);
+    const colomId = activeCard.match(/\d+/)[0];
+    const cardIds = activeCard.match(/\d+(?![-])/)[0];
+    coloms[colomId].cards.splice(cardIds, 1);
 
     //Delete ActiveCard
     const activeCards = this.state.activeCards;
     activeCards.splice(this.state.indexActiveCard, 1);
 
-    this.setState({ coloms, openActiveCard: false, activeCards });
+    this.setState({ openActiveCard: false, activeCards, coloms });
   };
 
   changeCardTitleHandler = event => {
@@ -273,10 +274,9 @@ class Layout extends React.Component {
       const activeCard = this.state.activeCards[this.state.indexActiveCard]
         .cardId;
       const coloms = this.state.coloms.concat();
-      const colomId = activeCard.match(/\d+(?=-)/)[0];
-      coloms[colomId].cards[
-        this.state.indexActiveCard
-      ].name = this.state.titleText;
+      const colomId = activeCard.match(/\d+/)[0];
+      const cardId = activeCard.match(/\d+(?![-])/)[0];
+      coloms[colomId].cards[cardId].name = this.state.titleText;
 
       this.setState({ coloms, activeCards, activeTitle: false, titleText: "" });
     } else {

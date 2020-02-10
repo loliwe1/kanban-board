@@ -12,9 +12,9 @@ class Coloms extends React.Component {
           <Card
             key={index}
             name={card.name}
+            activeCard={this.props.activeCard}
             deleteCard={() => this.props.deleteCard(index)}
             openActiveCard={() => this.props.openActiveCard(index)}
-            commentsCounter={this.props.commentsCounter[index].comments.length}
           ></Card>
         );
       });
