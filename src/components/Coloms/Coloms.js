@@ -4,6 +4,14 @@ import Card from "../Card/Card";
 import NewCardCreator from "../NewCardCreator/NewCardCreator";
 
 class Coloms extends React.Component {
+  countComment = (colomId, index) => {
+    const comments = this.props.commentsCounter;
+    const id = `${colomId}-${index}`;
+    const comment = comments.find(item => item.id === id);
+    if (comment) {
+      return comment.commentCount;
+    } else return 0;
+  };
   renderCards = () => {
     const cards = this.props.cards;
     if (cards) {
@@ -15,6 +23,7 @@ class Coloms extends React.Component {
             activeCard={this.props.activeCard}
             deleteCard={() => this.props.deleteCard(index)}
             openActiveCard={() => this.props.openActiveCard(index)}
+            comments={this.countComment.call(this, this.props.colomId, index)}
           ></Card>
         );
       });

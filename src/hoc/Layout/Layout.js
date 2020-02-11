@@ -46,7 +46,8 @@ class Layout extends React.Component {
     activeCards: JSON.parse(localStorage.getItem("activeCards")) || [],
     commentText: "",
     titleText: "",
-    activeTitle: false
+    activeTitle: false,
+    commentsCounter: JSON.parse(localStorage.getItem("commentsCounter"))
   };
 
   //Changes the Column Title
@@ -122,11 +123,30 @@ class Layout extends React.Component {
       localStorage.setItem("activeCards", jsnActive);
       const activeCards = JSON.parse(localStorage.getItem("activeCards"));
 
-      this.setState({ coloms, newCardValue: "", activeCards });
+      //Comments Counter
+      let commentCount = "";
+      if (localStorage.getItem("commentsCounter")) {
+        commentCount = JSON.parse(localStorage.getItem("commentsCounter"));
+      } else {
+        commentCount = [];
+      }
+
+      commentCount.push({
+        id: `${index}-${coloms[index].cards.length - 1}`,
+        commentCount: 0
+      });
+
+      localStorage.setItem("commentsCounter", JSON.stringify(commentCount));
+      const commentsCounter = JSON.parse(
+        localStorage.getItem("commentsCounter")
+      );
+
+      //Render
+      this.setState({ coloms, newCardValue: "", activeCards, commentsCounter });
     }
   };
 
-  // Adds a Card Title to a temporary field(this.state.newCardValue)
+  // Adds Card Title to a temporary field
   changeNewCardTitleHandler = value => {
     let newCardValue = value;
     this.setState({ newCardValue });
@@ -144,7 +164,7 @@ class Layout extends React.Component {
   };
 
   renderColoms() {
-    return this.state.coloms.map(colom => {
+    return this.state.coloms.map((colom, index) => {
       return (
         <Coloms
           name={colom.name}
@@ -160,6 +180,8 @@ class Layout extends React.Component {
             this.changeNewCardTitleHandler(event.target.value)
           }
           openActiveCard={this.openActiveCardHandler.bind(this, colom.id)}
+          commentsCounter={this.state.commentsCounter}
+          colomId={index}
         />
       );
     });
@@ -237,7 +259,17 @@ class Layout extends React.Component {
       localStorage.setItem("activeCards", jsn);
       const activeCards = JSON.parse(localStorage.getItem("activeCards"));
 
-      this.setState({ activeCards, commentText: "" });
+      //add to CommentCounter
+      const commentCount = JSON.parse(localStorage.getItem("commentsCounter"));
+      commentCount[this.state.indexActiveCard].commentCount += 1;
+
+      localStorage.setItem("commentsCounter", JSON.stringify(commentCount));
+      const commentsCounter = JSON.parse(
+        localStorage.getItem("commentsCounter")
+      );
+
+      //render
+      this.setState({ activeCards, commentText: "", commentsCounter });
     } else return null;
   };
 
@@ -250,7 +282,17 @@ class Layout extends React.Component {
     localStorage.setItem("activeCards", jsn);
     const activeCards = JSON.parse(localStorage.getItem("activeCards"));
 
-    this.setState({ activeCards });
+    //Delete from commentsCounter
+
+    const commentCount = JSON.parse(localStorage.getItem("commentsCounter"));
+    commentCount[this.state.indexActiveCard].commentCount -= 1;
+
+    localStorage.setItem("commentsCounter", JSON.stringify(commentCount));
+    const commentsCounter = JSON.parse(localStorage.getItem("commentsCounter"));
+
+    //render
+
+    this.setState({ activeCards, commentsCounter });
   };
 
   changeActiveCardDescriptionHandler = event => {
@@ -302,7 +344,20 @@ class Layout extends React.Component {
 
     const activeCards = JSON.parse(localStorage.getItem("activeCards"));
 
-    this.setState({ openActiveCard: false, activeCards, coloms });
+    //Delete commentsCounter
+    const commentCount = JSON.parse(localStorage.getItem("commentsCounter"));
+    commentCount.splice(this.state.indexActiveCard, 1);
+
+    localStorage.setItem("commentsCounter", JSON.stringify(commentCount));
+    const commentsCounter = JSON.parse(localStorage.getItem("commentsCounter"));
+
+    //render
+    this.setState({
+      openActiveCard: false,
+      activeCards,
+      coloms,
+      commentsCounter
+    });
   };
 
   changeCardTitleHandler = event => {
@@ -372,7 +427,7 @@ class Layout extends React.Component {
       }
       //if an Active Card is open
     } else if (this.state.openActiveCard) {
-      let activeCard = this.state.activeCards[this.state.indexActiveCard];
+      const activeCard = this.state.activeCards[this.state.indexActiveCard];
       return (
         <div>
           <div className="Layout">{this.renderColoms()}</div>
